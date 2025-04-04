@@ -12,4 +12,9 @@ class AssetsManager {
   static const String islamiLogo = "$base/islami_logo.png";
   static const String mostRecentSuraCard = "$base/most_recent_sura_image.png";
   static const String suraNumberBackground = "$base/sura_number_image.png";
+  static const String onBoarding1 = "$base/onbarding1.png";
+  static const String onBoarding2 = "$base/onbarding2.png";
+  static const String onBoarding3 = "$base/onbarding3.png";
+  static const String onBoarding4 = "$base/onbarding4.png";
+  static const String onBoarding5 = "$base/onbarding5.png";
 }
