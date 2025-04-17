@@ -18,6 +18,12 @@ class ThemeManager {
       selectedItemColor: ColorsManager.white,
       unselectedItemColor: ColorsManager.black,
     ),
+    textTheme: TextTheme(
+        bodyLarge: TextStyle(
+      fontSize: 36,
+      fontWeight: FontWeight.w700,
+      color: ColorsManager.white,
+    )),
   );
 
   static final ThemeData dark = ThemeData();

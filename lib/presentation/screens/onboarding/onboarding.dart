@@ -3,11 +3,16 @@ import 'package:introduction_screen/introduction_screen.dart';
 import 'package:islami_app_c14_online_sat/core/resources/assets_manager.dart';
 import 'package:islami_app_c14_online_sat/core/resources/colors_manager.dart';
 import 'package:islami_app_c14_online_sat/core/routes/routes_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoarding extends StatelessWidget {
   OnBoarding({super.key});
 
-  void _onIntroEnd(context) {
+  void _onIntroEnd(context) async {
+    /// logic save isFirst time open app
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('firstTime', false);
+
     Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
   }
 
