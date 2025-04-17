@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:islami_app_c14_online_sat/core/resources/assets_manager.dart';
 import 'package:islami_app_c14_online_sat/core/resources/colors_manager.dart';
 import 'package:islami_app_c14_online_sat/core/routes/routes_manager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -15,21 +16,26 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _navigate();
   }
 
-  void _navigate() {
+  void _navigate() async {
     // Future.delayed(const Duration(seconds: 2), () {
     //   Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
     // });
     /// duration -> build thread
     /// navigate
+    ///
+    SharedPreferences pref = await SharedPreferences.getInstance();
+
+    bool isFirstTime = pref.getBool('firstTime') ?? true;
+
     Timer(
       const Duration(seconds: 2),
       () {
-        Navigator.pushReplacementNamed(context, RoutesManager.onBoarding);
+        Navigator.pushReplacementNamed(context,
+            isFirstTime ? RoutesManager.onBoarding : RoutesManager.mainLayout);
       },
     );
   }

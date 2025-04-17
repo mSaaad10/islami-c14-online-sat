@@ -29,4 +29,8 @@ class AssetsManager {
       "$base/quran_details_bottom_image.png";
   static const String hadithTabBackgroundImage =
       "$base/hadith_tab_background.png";
+
+  static const String sebhaBackground = "$base/sebha_bg.png";
+  static const String sebahHead = "$base/sebha_head.png";
+  static const String sebhaBody = "$base/sebha_body.png";
 }
