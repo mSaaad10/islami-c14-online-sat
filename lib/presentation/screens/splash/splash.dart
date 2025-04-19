@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> {
     Timer(
       const Duration(seconds: 2),
       () {
-        Navigator.pushReplacementNamed(context, RoutesManager.mainLayout);
+        Navigator.pushReplacementNamed(context, RoutesManager.onBoarding);
       },
     );
   }

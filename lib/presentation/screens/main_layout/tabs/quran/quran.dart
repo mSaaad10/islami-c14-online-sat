@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:islami_app_c14_online_sat/core/resources/assets_manager.dart';
 import 'package:islami_app_c14_online_sat/core/resources/colors_manager.dart';
+import 'package:islami_app_c14_online_sat/core/resources/constant_manager.dart';
 import 'package:islami_app_c14_online_sat/presentation/screens/main_layout/tabs/quran/widgets/most_recent_card.dart';
 import 'package:islami_app_c14_online_sat/presentation/screens/main_layout/tabs/quran/widgets/sura_item.dart';
 
-class Quran extends StatelessWidget {
+class Quran extends StatefulWidget {
   const Quran({super.key});
+
+  @override
+  State<Quran> createState() => _QuranState();
+}
+
+class _QuranState extends State<Quran> {
+  String searchKey = "";
+
+  GlobalKey<MostRecentState> mostRecentKey = GlobalKey<MostRecentState>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +24,7 @@ class Quran extends StatelessWidget {
           image: DecorationImage(
               image: AssetImage(AssetsManager.quranTabBackground))),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -34,15 +44,8 @@ class Quran extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.2,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => SizedBox(
-                      width: MediaQuery.sizeOf(context).width * 0.7,
-                      child: MostRecentCard()),
-                  itemCount: 7,
-                ),
+              MostRecent(
+                key: mostRecentKey,
               ),
               const SizedBox(
                 height: 11,
@@ -66,24 +69,42 @@ class Quran extends StatelessWidget {
   }
 
   Widget buildSurasList() {
+    List<SuraDM> filteredList = ConstantManager.suras;
+    filteredList = filteredList
+        .where(
+          (suraDM) =>
+              suraDM.suraNameEn
+                  .toUpperCase()
+                  .contains(searchKey.toUpperCase()) ||
+              suraDM.suraNameAr.contains(searchKey),
+        )
+        .toList();
+
     return ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (context, index) => Divider(
-        color: ColorsManager.white,
-        thickness: 1,
-        indent: 64,
-        endIndent: 64,
-      ),
-      itemBuilder: (context, index) => SuraItem(),
-      itemCount: 114,
-    );
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        separatorBuilder: (context, index) => Divider(
+              color: ColorsManager.white,
+              thickness: 1,
+              indent: 64,
+              endIndent: 64,
+            ),
+        itemBuilder: (context, index) => SuraItem(
+              suraDM: filteredList[index],
+              mostRecentKey: mostRecentKey,
+            ),
+        itemCount: filteredList.length);
   }
 
   Widget buildSearchField() {
     return SizedBox(
       height: 55,
       child: TextField(
+        onChanged: (userInput) {
+          setState(() {
+            searchKey = userInput;
+          });
+        },
         cursorColor: ColorsManager.gold,
         style: TextStyle(
             fontSize: 18,
